@@ -1,0 +1,50 @@
+backend:
+  replicaCount: 2
+  image:
+    repository: "355294402015.dkr.ecr.us-east-1.amazonaws.com/back-repo"
+    tag: "latest"
+  service:
+    port: 3000
+
+frontend:
+  replicaCount: 2
+  image:
+    repository: "355294402015.dkr.ecr.us-east-1.amazonaws.com/front-repo"
+    tag: "latest"
+  service:
+    port: 80
+
+mysql:
+  replicaCount: 1
+  auth:
+    database: "guestbook_db"
+    username: "philo"
+  zone: "us-east-1a"
+  image:
+    repository: "mysql"
+    tag: "8.0"
+
+  service:
+    port: 3306
+  storage: "4Gi" 
+  reclaimPolicy: "Delete" 
+  volumeId: "vol-0bb3b54786f9c3872" 
+
+redis:
+  replicaCount: 1
+  image:
+    repository: "redis"
+    tag: "6-alpine"
+  service:
+    port: 6379
+
+ingress:
+  className: "nginx"
+  host: "philo-guestbook.com"
+  path: "/"
+  pathType: "Prefix"
+
+secrets:
+  mysqlRootPassword: "root_password123"
+  mysqlUserPassword: "philophilo"
+  redisPassword: "redis_password123"
